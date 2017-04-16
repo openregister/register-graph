@@ -1,0 +1,39 @@
+---
+- hosts: all
+  become: true
+  handlers:
+    - name: restart neo4j
+      service: name=neo4j state=restarted
+  tasks:
+    - name: firewall allow neo4j traffic
+      ufw: 
+        rule: allow 
+        proto: tcp
+        port: '{{item}}'
+      with_items:
+        - 7474 
+        - 7687 
+    - name: add repo for java 8
+      apt_repository: repo='ppa:webupd8team/java' state=present
+    - name: add neo4j key
+      apt_key:
+        url: "https://debian.neo4j.org/neotechnology.gpg.key"
+        state: present
+    - name: add neo4j repo
+      apt_repository: repo='deb http://debian.neo4j.org/repo stable/' state='present'
+    - name: set licence selected
+      shell: /bin/echo debconf shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+    - name: set licence seen
+      shell: /bin/echo debconf shared/accepted-oracle-license-v1-1 seen true | /usr/bin/debconf-set-selections
+    - name: install java 8
+      apt: name=oracle-java8-installer
+    - name: install pip3
+      apt: name=python3-pip
+    - name: install neo4j
+      apt: name=neo4j=3.1.3
+    - name: configure neo for external connections
+      lineinfile:
+        path: /etc/neo4j/neo4j.conf
+        line: 'dbms.connectors.default_listen_address=0.0.0.0'
+      notify: "restart neo4j"
+      
