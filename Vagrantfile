@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 7687, host: 7687,  host_ip: "127.0.0.1"
 
   config.vm.provider "virtualbox" do |vb|
-    vb.memory = "1024"
+    vb.memory = "2048"
   end
 
   config.vm.provision "ansible_local" do |ansible|

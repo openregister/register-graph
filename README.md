@@ -26,6 +26,6 @@ The data is in **/var/lib/neo4j/data**
 To import data from the various RDA github repos, the environment variable OPENREGISTER should be set to the path
 to directory where they are checked out.
 
-    cat /vagrant/loader/load.cql | cypher-shell -u neo4j -p password
+    cat /vagrant/loader/load-dep-registers.cql | cypher-shell -u neo4j -p password
 
     cypher-shell -u neo4j -p password "match (n) detach delete n"

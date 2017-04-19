@@ -16,7 +16,12 @@
     - name: configure neo for external connections
       lineinfile:
         path: /etc/neo4j/neo4j.conf
-        line: 'dbms.connectors.default_listen_address=0.0.0.0'
+        line: '{{item}}'
+      with_items:
+        - 'dbms.connectors.default_listen_address=0.0.0.0'
+        - 'dbms.shell.enabled=true'
+        - 'dbms.shell.host=127.0.0.1'
+        - 'dbms.shell.port=1337'
       notify: "restart neo4j"
     - name: symlink from import dir to openregister shared dir
       file:
