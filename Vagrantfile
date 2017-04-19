@@ -14,12 +14,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "ansible_local" do |ansible|
-    ansible.inventory_path = "vagrant/inventory"
-    ansible.config_file = "vagrant/ansible.cfg"
     ansible.playbook = "vagrant/provision.yml"
-    ansible.verbose = true
-    ansible.install = true
-    ansible.limit = "all"
   end
 
 end
