@@ -18,4 +18,8 @@
         path: /etc/neo4j/neo4j.conf
         line: 'dbms.connectors.default_listen_address=0.0.0.0'
       notify: "restart neo4j"
-      
+    - name: symlink from import dir to openregister shared dir
+      file:
+        src: /mnt/openregister
+        dest: /var/lib/neo4j/import/openregister
+        state: link
