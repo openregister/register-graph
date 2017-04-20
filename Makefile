@@ -1,4 +1,4 @@
-.PHONY: data load clean mostlyclean
+.PHONY: data load link munge clean mostlyclean
 
 REGISTERS=$(shell curl -s https://register.discovery.openregister.org/records.json | jq ".[].item[].register" | xargs)
 
@@ -6,8 +6,12 @@ data/%/register.json:
 	mkdir -p $(dir $@)
 	curl -s https://$*.discovery.openregister.org/records.json?page-size=5000 > $@
 
-load: data
+load: data munge link
+
+munge:
 	bash -c "python3 munge.py | cypher-shell --user=${NEO4J_USER} --password=${NEO4J_PASSWORD} --fail-fast --format plain"
+
+link:
 	bash -c "python3 link.py | cypher-shell --user=${NEO4J_USER} --password=${NEO4J_PASSWORD} --fail-fast --format plain"
 
 data: $(addprefix data/,$(addsuffix /register.json,${REGISTERS}))
