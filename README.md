@@ -20,3 +20,7 @@ The config file is in **/etc/neo4j/neo4j.config**
 The tools are in **/usr/share/neo4j/bin**
 
 The data is in **/var/lib/neo4j/data**
+
+## Loading data
+
+    NEO4J_USER=neo4j NEO4J_PASSWORD=neo4j make
