@@ -17,7 +17,7 @@ CREATE (la)-[r:State {from: 2000, to:3000}]->(las)
 CREATE (la)-[latr:LocalAuthorityTypeRel {from: 2000, to:3000}]->(lat)
 RETURN la;
 
-LOAD CSV WITH HEADERS FROM "file:///openregister/local-authority-data/data/local-authority-sct/local-authorities.tsv"
+LOAD CSV WITH HEADERS FROM "file:///openregister/local-authority-data/data/local-authority-sct/local-authority-sct.tsv"
  AS line FIELDTERMINATOR '\t'
 
 MATCH (lat:LocalAuthorityType) WHERE lat.entity_id = line.`local-authority-type`
